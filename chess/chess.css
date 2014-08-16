@@ -1,0 +1,57 @@
+/* chess board and piece */
+#chess_board
+{
+	position: relative;
+	display: inline-block;
+	line-height: 0px;
+}
+.chess_cell
+{
+	
+	border: 1px solid black;
+	display: inline-block;
+}
+.chess_line
+{
+	position: absolute;
+	border-top: 1px solid black;
+}
+.chess_line_45 { transform:rotate(45deg); }
+.chess_line_315 { transform:rotate(315deg); }
+.chess_loci
+{
+	position: absolute;
+	//background: yellow;
+	float:left;
+	//line-height:100%;
+}
+.chess_piece
+{
+	border: 1px solid black;
+	width:80%;
+	height:80%;
+	margin-top:10%;
+	margin-left:10%;
+	line-height:80%;
+	text-align:center;
+}
+.chess_piece_selected
+{
+	background:yellow;
+}
+.chess_locus_movable
+{
+	border: 1px solid blue;
+}
+.chess_locus_attack
+{	
+	border: 1px solid red;
+}
+.chess_player_0
+{
+	color: black;
+}
+.chess_player_1
+{
+	color: red;
+}
