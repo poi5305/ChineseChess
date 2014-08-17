@@ -62,7 +62,7 @@ class Chess
 			else //第二玩家
 			{
 				$record["player2"] = $username;
-				file_put_contents($record_file, json_encode($record)."\n");
+				file_put_contents($record_file, json_encode($record));
 				echo '{"player":1}';
 			}
 		}
@@ -108,20 +108,20 @@ class Controller
 		$player = $this->get_field("player");
 		$message = $this->get_field("message");
 		$record_file = "tmp/chess_$room_id";
-		
 		echo "$room_id $player $message";
 		
-		$msg = "\\\n".$player.":".$message;
-		system("echo $msg >> $record_file");
+		$msg = "\n".$player.":".$message;
+		file_put_contents($record_file, $msg, FILE_APPEND);
+		//shell_exec("echo $msg >> $record_file");
 	}
 	public function wait()
 	{
 		$room_id = $this->get_field("room_id");
 		$player = $this->get_field("player");
-		
 		$record_file = "tmp/chess_$room_id";
 		
-		$line = shell_exec("tail -n 1 $record_file");
+		$line = $this->get_last_line($record_file);
+		//$line = shell_exec("tail -n 1 $record_file");
 		$line = explode(":", $line);
 		if($player != $line[0] && ($line[0]=="0"||$line[0]=="1") )
 			echo $line[1];
@@ -130,7 +130,8 @@ class Controller
 	{
 		$room_id = $this->get_field("room_id");
 		$record_file = "tmp/chess_$room_id";
-		$line = shell_exec("tail -n 1 $record_file");
+		$line = $this->get_last_line($record_file);
+		//$line = shell_exec("tail -n 1 $record_file");
 		$tmp = explode(",", $line);
 		if(count($tmp) == 4)
 		{
@@ -138,7 +139,19 @@ class Controller
 		}
 	}
 	
-	
+	private function get_last_line($filename)
+	{
+		$fp = fopen($filename, "r");
+		fseek($fp, 0, SEEK_END); 
+		$pos = ftell($fp);
+		$LastLine = "";
+		while((($C = fgetc($fp)) != "\n") && ($pos > 0)) {
+		    $LastLine = $C.$LastLine;
+		    fseek($fp, $pos--);
+		}
+		fclose($fp);
+		return trim($LastLine);
+	}
 	private function init()
 	{
 		$method = $this->FIELD["cmd"];
@@ -176,63 +189,5 @@ class Controller
 			die();
 	}
 }
-
-
-
-
-
-function enter_room()
-{
-	$room_id = $_GET["room_id"];
-	$record_file = "tmp/chess_$room_id";
-	if( file_exists($record_file) )
-	{
-		$record = json_decode(file_get_contents($record_file), true);
-		$record["player2"] = $_GET["username"];
-		$txt = json_encode($record);
-		file_put_contents($record_file, json_encode($record)."\n");
-		echo '{"player":1}';
-	}
-	else
-	{
-		$record = array();
-		$record["player1"] = $_GET["username"];
-		file_put_contents($record_file, json_encode($record));
-		echo '{"player":0}';
-	}
-}
-function go()
-{
-	$room_id = $_GET["room_id"];
-	$record_file = "tmp/chess_$room_id";
-	$player = $_GET["player"];
-	$msg = "\\\n".$player.":".$_GET["message"];
-	system("echo $msg >> $record_file");
-}
-function wait()
-{
-	$room_id = $_GET["room_id"];
-	$record_file = "tmp/chess_$room_id";
-	$player = $_GET["player"];
-	$line = shell_exec("tail -n 1 $record_file");
-	$line = explode(":", $line);
-	if($player != $line[0] && ($line[0]=="0"||$line[0]=="1") )
-		echo $line[1];
-}
-
-/*
-switch($_GET["cmd"])
-{
-	case "enter_room":
-		enter_room();
-		break;
-	case "go":
-		go();
-		break;
-	case "wait":
-		wait();
-		break;
-}
-*/	
 	
 ?>
