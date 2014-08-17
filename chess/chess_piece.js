@@ -29,17 +29,18 @@ function(declare, lang)
 			var x = this.player == this.parent.player ? this.position[0]: 8-this.position[0];
 			var y = this.player == this.parent.player ? this.position[1]: 9-this.position[1];
 			this.position = [x, y];
-			var j_piece = this.j_piece = $("<div><div>");
+			var j_piece = this.j_piece = $("<div><div>").appendTo(this.parent.board.board[x][y].j_locus);
 			
 			j_piece
 			.addClass("chess_piece")
 			.addClass("chess_player_" + this.player)
+			.css("font-size",  Math.min(j_piece.height(), j_piece.width())*0.8)
+			.css("line-height", j_piece.height()+"px")
 			.html(this.rule.name[this.player])
 			.bind("click", function(e){
 				thisA.click_event(e);
 			});
 			
-			j_piece.appendTo(this.parent.board.board[x][y].j_locus);
 			this.parent.board.board[x][y].piece = this;
 		}
 		,click_event: function(e)
@@ -106,10 +107,20 @@ function(declare, lang)
 			//message += this.parent.board.board[nx][ny].piece.rule.name[(this.player+1)%2] + " " + nx + "," + ny;
 			//this.parent.log(message);
 			
-			this.parent.board.board[nx][ny].piece.j_piece.hide().unbind("click").appendTo($("body"));
+			var j_piece = this.parent.board.board[nx][ny].piece.j_piece.unbind("click");
+			this.piece_die_handler(j_piece);
+			
 			delete this.parent.board.board[nx][ny].piece;
 			j_locus.data("attack", false);
 			this.moveTo(j_locus);
+		}
+		,piece_die_handler: function(j_piece)
+		{
+			var j_death = $("<div></div>")
+			.height(this.parent.board.config.locus_h)
+			.width(this.parent.board.config.locus_w)
+			.appendTo($("#death"))
+			.append(j_piece);
 		}
 		,calculate_movable: function()
 		{

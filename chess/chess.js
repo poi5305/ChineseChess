@@ -7,7 +7,7 @@ function(declare, lang, piece, board, rule)
 {
 	return declare([rule], 
 	{
-		"constructor": function(main_id, player)
+		"constructor": function(main_id, log, death)
 		{
 			console.log("Chinese Chess Obj Created");
 			if($("#name").val() == "" || $("#room_id").val() == "")
@@ -19,6 +19,8 @@ function(declare, lang, piece, board, rule)
 			this.room_id = $("#room_id").val();
 						
 			this.j_main = $("#"+main_id);
+			this.j_log = $("#"+log);
+			this.j_death = $("#"+death);
 			
 			this.init();
 		}
@@ -27,7 +29,9 @@ function(declare, lang, piece, board, rule)
 		,player: 0
 		,board: {}
 		,pieces: []
-		,j_main: ""
+		,j_main: {}
+		,j_log: {}
+		,j_death: {}
 		,init: function()
 		{
 			var thisA = this;
@@ -139,6 +143,8 @@ function(declare, lang, piece, board, rule)
 		}
 		,log: function(message)
 		{
+			$("<div>"+message+"</div>").prependTo($(this.j_log));
+			
 			console.log(message);
 		}
 		,create_pieces: function()

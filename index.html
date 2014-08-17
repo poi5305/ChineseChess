@@ -24,18 +24,26 @@
 			$("#Go").bind("click", function(){
 				$("#main").children().remove();
 				delete g_chess;
-				g_chess = new chess("main");
+				g_chess = new chess("main", "log", "death");
 			});
 		});
-		
 	</script>
+	<style>
+		#log, #death
+		{
+			padding: 10px;
+			overflow:scroll;
+			line-height:20px;
+		}
+	</style>
 </head>
 <body>
 	Name: <input type="text" id="username" value="andy" /> 
 	Room: <input type="text" id="room_id" value="100" />
 	<input type="button" id="Go" value="Go" />
 	<br />
-	<div id="main" style="width:450px; height:500px; border: 1px solid black;">
-	</div>
+	<div id="log" style="float:left;width:100px; height:480px; border: 1px solid black;"></div>
+	<div id="main" style="float:left;display:inline-block;width:450px; height:500px; border: 1px solid black;"></div>
+	<div id="death" style="float:left;width:80px; height:480px; border: 1px solid black;"></div>
 </body>
 </html>

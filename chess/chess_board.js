@@ -24,7 +24,7 @@ function(declare, lang)
 			,cell_w: 0
 			,locus_w: 0
 			,locus_h: 0
-			,locus_ratio: 0.5
+			,locus_ratio: 0.6
 		}
 		,select: function(piece)
 		{
@@ -109,6 +109,8 @@ function(declare, lang)
 					j_cell
 					.addClass("chess_cell")
 					.addClass("cell_0_" + y)
+					.css("font-size", this.config.cell_h*0.8)
+					.css("line-height", this.config.cell_h + "px")
 					.width( this.config.cell_w*8 - 2)
 					.height( this.config.cell_h -2);
 					continue;
@@ -128,6 +130,8 @@ function(declare, lang)
 			var line_left = this.config.cell_w * 3.5 - (line_w - this.config.cell_w * 2) / 2;
 			this.create_board_line(line_left, this.config.cell_h * 8.5, line_w);
 			this.create_board_line(line_left, this.config.cell_h * 1.5, line_w);
+			
+			this.create_board_focus_all();
 		}
 		,create_board_line: function(left, top, width)
 		{
@@ -143,6 +147,112 @@ function(declare, lang)
 			.removeClass("chess_line_45")
 			.addClass("chess_line_315");
 		}
+		,create_board_focus_all: function()
+		{
+			this.create_board_focus($(".cell_0_1"), [2]);
+			this.create_board_focus($(".cell_1_1"), [1]);
+			this.create_board_focus($(".cell_6_1"), [2]);
+			this.create_board_focus($(".cell_7_1"), [1]);
+			
+			this.create_board_focus($(".cell_0_2"), [1,4]);
+			this.create_board_focus($(".cell_0_3"), [3]);
+			
+			this.create_board_focus($(".cell_1_2"), [2,3]);
+			this.create_board_focus($(".cell_1_3"), [4]);
+			
+			this.create_board_focus($(".cell_2_2"), [1]);
+			this.create_board_focus($(".cell_2_3"), [3]);
+			
+			this.create_board_focus($(".cell_3_2"), [2]);
+			this.create_board_focus($(".cell_3_3"), [4]);
+			
+			this.create_board_focus($(".cell_4_2"), [1]);
+			this.create_board_focus($(".cell_4_3"), [3]);
+			
+			this.create_board_focus($(".cell_5_2"), [2]);
+			this.create_board_focus($(".cell_5_3"), [4]);
+			
+			this.create_board_focus($(".cell_6_2"), [1,4]);
+			this.create_board_focus($(".cell_6_3"), [3]);
+			
+			this.create_board_focus($(".cell_7_2"), [2,3]);
+			this.create_board_focus($(".cell_7_3"), [4]);
+			
+			
+			this.create_board_focus($(".cell_0_7"), [4]);
+			this.create_board_focus($(".cell_1_7"), [3]);
+			this.create_board_focus($(".cell_6_7"), [4]);
+			this.create_board_focus($(".cell_7_7"), [3]);
+			
+			this.create_board_focus($(".cell_0_5"), [1]);
+			this.create_board_focus($(".cell_0_6"), [3,2]);
+			
+			this.create_board_focus($(".cell_1_5"), [2]);
+			this.create_board_focus($(".cell_1_6"), [4,1]);
+
+			this.create_board_focus($(".cell_2_5"), [1]);
+			this.create_board_focus($(".cell_2_6"), [3]);
+			
+			this.create_board_focus($(".cell_3_5"), [2]);
+			this.create_board_focus($(".cell_3_6"), [4]);
+			
+			this.create_board_focus($(".cell_4_5"), [1]);
+			this.create_board_focus($(".cell_4_6"), [3]);
+			
+			this.create_board_focus($(".cell_5_5"), [2]);
+			this.create_board_focus($(".cell_5_6"), [4]);
+			
+			this.create_board_focus($(".cell_6_5"), [1]);
+			this.create_board_focus($(".cell_6_6"), [3,2]);
+			
+			this.create_board_focus($(".cell_7_5"), [2]);
+			this.create_board_focus($(".cell_7_6"), [4,1]);
+		}
+		,create_board_focus: function(p_obj, border_list)
+		{
+			var cell_h = p_obj.height();
+			var cell_w = p_obj.width();
+			
+			var focus = 
+			$("<div></div>")
+			.css("margin", (cell_h*0.06) + "px")
+			.css("height", (cell_h*0.38-2) + "px")
+			.css("width", (cell_h*0.38-2) + "px")
+			.css("float", "left")
+			.css("border", "1px solid #FFF")
+			.clone().appendTo(p_obj)
+			.clone().appendTo(p_obj)
+			.clone().appendTo(p_obj)
+			.clone().appendTo(p_obj)
+			
+			for(var i in border_list)
+			{
+				var border_type = border_list[i];
+				switch(border_type)
+				{
+					case 4:
+						p_obj.find("div").eq(border_type-1)
+						.css("border-right", "1px solid #000")
+						.css("border-bottom", "1px solid #000");
+						break;
+					case 3:
+						p_obj.find("div").eq(border_type-1)
+						.css("border-left", "1px solid #000")
+						.css("border-bottom", "1px solid #000");
+						break;
+					case 2:
+						p_obj.find("div").eq(border_type-1)
+						.css("border-right", "1px solid #000")
+						.css("border-top", "1px solid #000");
+						break;
+					case 1:
+						p_obj.find("div").eq(border_type-1)
+						.css("border-top", "1px solid #000")
+						.css("border-left", "1px solid #000");
+						break;
+				}
+			}
+		}
 		,create_board_loci: function()
 		{
 			for(var x=0;x<9;x++)
@@ -157,7 +267,8 @@ function(declare, lang)
 			{
 				for(var x=0;x<9;x++)
 				{
-					var j_locus = $("<div>"+ x+","+y +"</div>").appendTo(this.j_board);
+					//var j_locus = $("<div>"+ x+","+y +"</div>").appendTo(this.j_board);
+					var j_locus = $("<div></div>").appendTo(this.j_board);
 					var top = ( (9 - y + (1 - this.config.locus_ratio)/2) * this.config.cell_h);
 					var left = ( (x + (1 - this.config.locus_ratio)/2) * this.config.cell_w);
 				

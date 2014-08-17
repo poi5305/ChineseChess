@@ -7,9 +7,9 @@
 }
 .chess_cell
 {
-	
 	border: 1px solid black;
 	display: inline-block;
+	text-align:center;
 }
 .chess_line
 {
@@ -21,19 +21,27 @@
 .chess_loci
 {
 	position: absolute;
-	//background: yellow;
 	float:left;
-	//line-height:100%;
 }
 .chess_piece
 {
 	border: 1px solid black;
-	width:80%;
-	height:80%;
-	margin-top:10%;
-	margin-left:10%;
+	border-radius: 40%;
+	width:90%;
+	height:90%;
 	line-height:80%;
 	text-align:center;
+	background: white;
+}
+.chess_player_0
+{
+	border: 1px solid black;
+	color: black;
+}
+.chess_player_1
+{
+	border: 1px solid red;
+	color: red;
 }
 .chess_piece_selected
 {
@@ -47,11 +55,4 @@
 {	
 	border: 1px solid red;
 }
-.chess_player_0
-{
-	color: black;
-}
-.chess_player_1
-{
-	color: red;
-}
+
