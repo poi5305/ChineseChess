@@ -22,7 +22,7 @@
 		], function(chess) 
 		{
 			$("#Go").bind("click", function(){
-				$("#main").children().remove();
+				$("#main, #log, #death").children().remove();
 				delete g_chess;
 				g_chess = new chess("main", "log", "death");
 			});
