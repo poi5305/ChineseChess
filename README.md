@@ -1,7 +1,7 @@
 ChineseChess
 ============
 
-It is a game of chinese chess writen by HTML, javascript, jQuery, and PHP(server).
+It is a game of chinese chess writen by HTML, javascript, jQuery, dojo, and PHP(server).
 
 It connected two player to play a game of chinese chess using network, and let more player to watch the game.
 
@@ -16,7 +16,7 @@ It connected two player to play a game of chinese chess using network, and let m
 - 允許觀戰
 - 步驟記錄
 - 中斷連線可恢復
-- HTML, javascript, jQuery, PHP (伺服器) 所寫
+- HTML, javascript, jQuery, dojo, PHP (伺服器) 所寫
 
 ### 安裝方法
 
