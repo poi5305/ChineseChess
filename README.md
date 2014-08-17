@@ -23,3 +23,13 @@ It connected two player to play a game of chinese chess using network, and let m
 2. git clone
 3. 將 tmp 資料夾權限改成 777
 4. 完成。玩家只要輸入 IP 或網址就可以開始對戰
+
+### DEMO
+
+1. Go to
+
+  http://www.muggle.tw/ChineseChess/index.html
+
+2. Enter Name and Room id and click Go
+3. Wait for friends to enter the room
+4. room 100 exhibited the procedure record
