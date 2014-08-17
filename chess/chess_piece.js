@@ -28,6 +28,7 @@ function(declare, lang)
 			var thisA = this;
 			var x = this.player == this.parent.player ? this.position[0]: 8-this.position[0];
 			var y = this.player == this.parent.player ? this.position[1]: 9-this.position[1];
+			this.position = [x, y];
 			var j_piece = this.j_piece = $("<div><div>");
 			
 			j_piece
@@ -43,6 +44,8 @@ function(declare, lang)
 		}
 		,click_event: function(e)
 		{
+			if(this.parent.status == "wait")
+				return;
 			//都還沒選
 			if(this.parent.board.current_selected == false)
 			{
@@ -80,6 +83,10 @@ function(declare, lang)
 			var nx = j_locus.data("x");
 			var ny = j_locus.data("y");
 			
+			var message = this.rule.name[this.player] + " " + ox + "," + oy + " 走 ";
+			message += nx + "," + ny;
+			this.parent.log(message);
+			
 			this.unselect();
 			this.position = [nx, ny];
 			this.j_piece.appendTo(j_locus);
@@ -93,10 +100,14 @@ function(declare, lang)
 			var nx = j_locus.data("x");
 			var ny = j_locus.data("y");
 			
+			var message = this.rule.name[this.player] + " " + this.position[0] + "," + this.position[1] + " 吃 ";
+			message += this.parent.board.board[nx][ny].piece.rule.name[(this.player+1)%2] + " " + nx + "," + ny;
+			this.parent.log(message);
+			
 			this.parent.board.board[nx][ny].piece.j_piece.hide().unbind("click").appendTo($("body"));
 			delete this.parent.board.board[nx][ny].piece;
-			
-			this.moveTo(j_locus)
+			j_locus.data("attack", false);
+			this.moveTo(j_locus);
 		}
 		,calculate_movable: function()
 		{

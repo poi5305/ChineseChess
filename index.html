@@ -20,13 +20,18 @@
 			'chess/chess'
 		], function(chess) 
 		{
-			g_chess = new chess("main", 1);
-			
+			$("#Go").bind("click", function(){
+				g_chess = new chess("main");
+			});
 		});
 		
 	</script>
 </head>
 <body>
+	Name: <input type="text" id="username" value="andy" /> 
+	Room: <input type="text" id="room_id" value="100" />
+	<input type="button" id="Go" value="Go" />
+	<br />
 	<div id="main" style="width:450px; height:500px; border: 1px solid black;">
 	</div>
 </body>

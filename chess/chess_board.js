@@ -45,7 +45,7 @@ function(declare, lang)
 				else
 					j_locus.addClass("chess_locus_movable").data("attack", false);
 				j_locus.bind("click", function(e){
-					thisA.moveIn(e, $(this));
+					thisA.moveIn(e, thisA.current_selected, $(this));
 				});
 			}
 		}
@@ -63,13 +63,17 @@ function(declare, lang)
 				.unbind("click");
 			}
 		}
-		,moveIn: function(e, j_locus)
+		,moveIn: function(e, piece, j_locus)
 		{
+			var msg = (8-piece.position[0])+","+(9-piece.position[1])+","+(8-j_locus.data("x"))+","+(9-j_locus.data("y"));
+			if(e)
+				this.parent.go(msg);
+			
 			if(j_locus.data("attack"))
-				this.current_selected.attackTo(j_locus);
+				piece.attackTo(j_locus);
 			else
-				this.current_selected.moveTo(j_locus);
-			this.current_selected = false;
+				piece.moveTo(j_locus);
+			
 		}
 		,create_board: function()
 		{
