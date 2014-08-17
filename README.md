@@ -15,6 +15,7 @@ It connected two player to play a game of chinese chess using network, and let m
 - 房間管理
 - 允許觀戰
 - 步驟記錄
+- 中斷連線可恢復
 - HTML, javascript, jQuery, PHP (伺服器) 所寫
 
 ### 安裝方法
@@ -32,4 +33,4 @@ It connected two player to play a game of chinese chess using network, and let m
 
 2. Enter Name and Room id and click Go
 3. Wait for friends to enter the room
-4. room 100 exhibited the procedure record
+4. room 100 exhibited the procedure record (player1 is andy, player2 is andy2)
