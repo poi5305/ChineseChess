@@ -16,11 +16,14 @@
 	</script>
 	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.0/dojo/dojo.js"  data-dojo-config="async: true"></script>
 	<script>
+		g_chess = {};
 		require([
 			'chess/chess'
 		], function(chess) 
 		{
 			$("#Go").bind("click", function(){
+				$("#main").children().remove();
+				delete g_chess;
 				g_chess = new chess("main");
 			});
 		});

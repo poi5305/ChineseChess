@@ -83,8 +83,10 @@ function(declare, lang)
 			var nx = j_locus.data("x");
 			var ny = j_locus.data("y");
 			
-			var message = this.rule.name[this.player] + " " + ox + "," + oy + " 走 ";
-			message += nx + "," + ny;
+			if(this.player != this.parent.player)
+				var message = this.rule.name[this.player] + " " + ox + "," + oy + " 走 " + nx + "," + ny;
+			else
+				var message = this.rule.name[this.player] + " " + (8-ox) + "," + (9-oy) + " 走 " + (8-nx) + "," + (9-ny);
 			this.parent.log(message);
 			
 			this.unselect();
@@ -100,9 +102,9 @@ function(declare, lang)
 			var nx = j_locus.data("x");
 			var ny = j_locus.data("y");
 			
-			var message = this.rule.name[this.player] + " " + this.position[0] + "," + this.position[1] + " 吃 ";
-			message += this.parent.board.board[nx][ny].piece.rule.name[(this.player+1)%2] + " " + nx + "," + ny;
-			this.parent.log(message);
+			//var message = this.rule.name[this.player] + " " + this.position[0] + "," + this.position[1] + " 吃 ";
+			//message += this.parent.board.board[nx][ny].piece.rule.name[(this.player+1)%2] + " " + nx + "," + ny;
+			//this.parent.log(message);
 			
 			this.parent.board.board[nx][ny].piece.j_piece.hide().unbind("click").appendTo($("body"));
 			delete this.parent.board.board[nx][ny].piece;

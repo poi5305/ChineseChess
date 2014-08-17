@@ -40,11 +40,36 @@ function(declare, lang, piece, board, rule)
 				thisA.player = obj.player;
 				thisA.board = new board(thisA);
 				thisA.create_pieces();
-				if(thisA.player == 1)
+				var last_player = 1;
+				if(obj.record)
+				{
+					last_player = thisA.resume(obj.record);
+				}
+				if(obj.looking)
+				{
+					thisA.looking(last_player);
+					return;
+				}
+				if(thisA.player == last_player)
 				{
 					thisA.wait();
 				}
 			});
+		}
+		,resume: function(record)
+		{
+			var last_player = 1;
+			for(var i in record)
+			{
+				var tmp = record[i].split(":");
+				var player = last_player = tmp[0];
+				var xxyy = tmp[1].split(",");
+				if(this.player == player)
+					this.piece_move(+xxyy[0], +xxyy[1], +xxyy[2], +xxyy[3]);
+				else
+					this.piece_move(8-(+xxyy[0]), 9-(+xxyy[1]), 8-(+xxyy[2]), 9-(+xxyy[3]));
+			}
+			return last_player;
 		}
 		,go: function(message)
 		{
@@ -54,6 +79,33 @@ function(declare, lang, piece, board, rule)
 				console.log(d);
 				thisA.wait();
 			});
+		}
+		,looking: function(last_player)
+		{
+			this.status = "wait";
+			this.last_player = last_player;
+			var thisA = this;
+			var waiting = setInterval(function(){
+				$.get("chess.php", {cmd:"looking", room_id:thisA.room_id}, function(d)
+				{
+					if(d != "")
+					{
+						console.log("looking...finish", thisA.last_player, d );
+						var tmp = d.split(":");
+						var player = tmp[0];
+						var xxyy = tmp[1].split(",");
+						if(thisA.last_player == player)
+							return;
+						console.log("looking...finish2", thisA.last_player , player)				
+						if(player == 1)
+							thisA.piece_move(8-(+xxyy[0]), 9-(+xxyy[1]), 8-(+xxyy[2]), 9-(+xxyy[3]));
+						else
+							thisA.piece_move(+xxyy[0], +xxyy[1], +xxyy[2], +xxyy[3]);
+						thisA.last_player = player;
+						
+					}
+				});
+			},2500); 
 		}
 		,wait: function()
 		{
@@ -69,10 +121,11 @@ function(declare, lang, piece, board, rule)
 						console.log("waiting...finish", d);
 						clearInterval(waiting);
 						var tmp = d.split(",");
-						thisA.piece_move((+tmp[0]), (+tmp[1]), (+tmp[2]), (+tmp[3]));
+						//敵人下棋，座標反轉
+						thisA.piece_move(8-(+tmp[0]), 9-(+tmp[1]), 8-(+tmp[2]), 9-(+tmp[3]));
 					}
 				});
-			},2000); 
+			},2500); 
 		}
 		,piece_move: function(fmx, fmy, tox, toy)
 		{
@@ -81,7 +134,7 @@ function(declare, lang, piece, board, rule)
 			var j_locus = this.board.board[tox][toy].j_locus;
 			if(this.board.board[tox][toy].piece && this.board.board[tox][toy].piece.player != piece.player)
 				j_locus.data("attack", true);
-			console.log(j_locus.data("attack"));
+			//console.log(j_locus.data("attack"));
 			this.board.moveIn(undefined, piece, j_locus);
 		}
 		,log: function(message)

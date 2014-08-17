@@ -65,7 +65,7 @@ function(declare, lang)
 		}
 		,moveIn: function(e, piece, j_locus)
 		{
-			var msg = (8-piece.position[0])+","+(9-piece.position[1])+","+(8-j_locus.data("x"))+","+(9-j_locus.data("y"));
+			var msg = (piece.position[0])+","+(piece.position[1])+","+(j_locus.data("x"))+","+(j_locus.data("y"));
 			if(e)
 				this.parent.go(msg);
 			
