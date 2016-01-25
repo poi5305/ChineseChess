@@ -27,6 +27,8 @@ It connected two player to play a game of chinese chess using network, and let m
 
 ### DEMO
 
+![alt tag](https://raw.githubusercontent.com/poi5305/ChineseChess/master/snapshot.png)
+
 1. Go to
 
   http://www.muggle.tw/ChineseChess/index.html
