@@ -31,7 +31,7 @@ It connected two player to play a game of chinese chess using network, and let m
 
 1. Go to
 
-  http://www.muggle.tw/ChineseChess/index.html
+  http://elggum.com/ChineseChess/index.html
 
 2. Enter Name and Room id and click Go
 3. Wait for friends to enter the room
